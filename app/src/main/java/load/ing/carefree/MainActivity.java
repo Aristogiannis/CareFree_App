@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         Button Signup = findViewById(R.id.signup);
         TextView location_view = findViewById(R.id.location);
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-            
+
             fusedLocationClient.getLastLocation()
                     .addOnSuccessListener(this, new OnSuccessListener<Location>() {
                         @Override
@@ -63,15 +63,16 @@ public class MainActivity extends AppCompatActivity {
                                 String slat = Double.toString(lat);
                                 location_view.setText(slat + "/" + slon);
                             }
-                            Signup.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    Intent intent = new Intent(MainActivity.this, List.class);
-                                    startActivity(intent);
-                                }
-                            });
                         }
                     });
 
+
+        Signup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, List.class);
+                startActivity(intent);
+            }
+        });
     }
 }
