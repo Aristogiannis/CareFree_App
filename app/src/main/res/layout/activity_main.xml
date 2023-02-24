@@ -6,13 +6,12 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-
     <Button
         android:id="@+id/signup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-        android:text="SignUp"
+        android:text="Account"
         app:backgroundTint="#478BFF"
         app:cornerRadius="180dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -25,16 +24,12 @@
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:id="@+id/linear"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical" />
     </ScrollView>
 
