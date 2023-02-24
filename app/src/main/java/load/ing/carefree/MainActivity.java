@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
         Double [] pharmacy_lats =  {37.630238109521486, 37.62819300280989, 37.6307632419298, 37.6287162088105, 37.61314798821025, 37.615934428378075,37.92436740210267}; // last 2 cords in athens
         Double [] pharmacy_longs = {26.106339097445733,26.158847526239356,26.178307223731224,26.18643483803518,26.294174906418764,26.295176613093464, 23.724148422567776};// last 2 cords in athens
         String [] ratings = {"5/5","5/5","4/5","5/5","5/5","4.8/5", "69/420"};
-
+        String [] tel_numbers = {"0","1","2","3","4","5","6"};
         Button Signup = findViewById(R.id.signup);
         ScrollView scrollView = findViewById(R.id.scrollView);
         LinearLayout linearLayout = findViewById(R.id.linear);
@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
                                 double [] distance = {0,0,0,0,0,0,0};
                                 int len = distance.length;
 
-
+                                //TODO: AD COMMENTS ASAP OR COMMIT SUICIDE ON GITHUB
                                 for(i = 0; i <= len-1;i++) {distance[i] = haversine(lat, lon, pharmacy_lats[i], pharmacy_longs[i]);}
 
                                 Arrays.sort(distance);
@@ -108,30 +108,32 @@ public class MainActivity extends AppCompatActivity {
 
                                     pharmacy_view.setTextColor(Color.parseColor("#000000"));
                                     pharmacy_view.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
-                                    String pharmacy_string = ("Pharmacy "+ (len - finalI)+" (" +new DecimalFormat("##.##").format(distance[i]) + " km)  " + ratings[finalI] + " ☆");
+                                    String pharmacy_string = ("Pharmacy "+ (len - finalI)+" (" +new DecimalFormat("##.##").format(distance[i]) + " km)  " + ratings[finalI] + " ★");
                                     SpannableString spannable = new SpannableString(pharmacy_string);
-
                                     spannable.setSpan(new ForegroundColorSpan(Color.parseColor("#FFD700")), pharmacy_string.length() - ratings[finalI].length()-2, (pharmacy_string).length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
                                     pharmacy_view.setText(spannable, TextView.BufferType.SPANNABLE);
+                                   // pharmacy_view.setBackgroundResource(R.drawable.backshape);
 
-                                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                                            LinearLayout.LayoutParams.WRAP_CONTENT,
-                                            LinearLayout.LayoutParams.WRAP_CONTENT
-                                    );
-                                    layoutParams.gravity = Gravity.LEFT;
-                                    layoutParams.topMargin = 100;
-                                    pharmacy_view.setLayoutParams(layoutParams);
+                                    ImageButton call_button = new ImageButton(MainActivity.this);
+                                    call_button.setImageResource(R.drawable.icons8_phone_48);
+                                    call_button.setBackground(null);
+                                    call_button.setScaleX((float) 1);
+                                    call_button.setScaleY((float) 1);
+                                    ImageButton directions_button = new ImageButton(MainActivity.this);
+                                    directions_button.setImageResource(R.drawable.icons8_map_marker_48);
+                                    directions_button.setScaleX((float) 0.9);
+                                    directions_button.setScaleY((float) 0.9);
+                                    directions_button.setBackground(null);
 
-                                    ImageButton button = new ImageButton(MainActivity.this);
-                                    button.setImageResource(R.drawable.icons8_map_marker_48);
-                                    button.setBackground(null);
-                                    LinearLayout.LayoutParams layoutParams_btn = new LinearLayout.LayoutParams(
-                                            LinearLayout.LayoutParams.WRAP_CONTENT,
-                                            LinearLayout.LayoutParams.WRAP_CONTENT
-                                    );
-
-                                    button.setOnClickListener(new View.OnClickListener() {
+                                    call_button.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            Intent phone_intent = new Intent(Intent.ACTION_DIAL);
+                                            phone_intent.setData(Uri.parse("tel:" + tel_numbers[len - finalI]));
+                                            startActivity(phone_intent);
+                                        }
+                                    });
+                                    directions_button.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
                                             Uri gmmIntentUri = Uri.parse("geo:0,0?q="+Double.toString(pharmacy_lats[finalI]) +","+Double.toString(pharmacy_longs[finalI]));
@@ -140,13 +142,60 @@ public class MainActivity extends AppCompatActivity {
                                             startActivity(mapIntent);
                                         }
                                     });
+
+                                    LinearLayout row = new LinearLayout(MainActivity.this);
+                                    row.setOrientation(LinearLayout.HORIZONTAL);
+
+                                    LinearLayout row2 = new LinearLayout(MainActivity.this);
+                                    row.setOrientation(LinearLayout.VERTICAL);
+
+                                    /*** Layout parameters for pharmacy view ***/
+                                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                                            LinearLayout.LayoutParams.WRAP_CONTENT,
+                                            LinearLayout.LayoutParams.WRAP_CONTENT
+                                    );
+                                    layoutParams.weight = -1;
+                                    layoutParams.gravity = Gravity.LEFT;
+                                    layoutParams.setMargins(0,50,0,35);
+
+
+                                    /** Layout parameters for get directions directions_button ***/
+                                    LinearLayout.LayoutParams layoutParams_btn = new LinearLayout.LayoutParams(
+                                            LinearLayout.LayoutParams.WRAP_CONTENT,
+                                            LinearLayout.LayoutParams.WRAP_CONTENT
+                                    );
                                     layoutParams_btn.gravity = Gravity.RIGHT;
-                                    layoutParams_btn.bottomMargin = 85;
-                                    button.setLayoutParams(layoutParams_btn);
+                                    layoutParams_btn.setMargins(0,50,0,0);
+                                    layoutParams_btn.weight =-1;
+
+                                    /** Layout parameters for rows ***/
+                                    LinearLayout.LayoutParams row_params = new LinearLayout.LayoutParams(
+                                            LinearLayout.LayoutParams.WRAP_CONTENT,
+                                            LinearLayout.LayoutParams.WRAP_CONTENT
+                                    );
+
+                                    row_params.gravity = Gravity.LEFT;
+                                    row_params.setMargins(45,50,0,0);
+
+                                    /** Layout parameters for rows ***/
+                                    LinearLayout.LayoutParams row2_params = new LinearLayout.LayoutParams(
+                                            LinearLayout.LayoutParams.WRAP_CONTENT,
+                                            LinearLayout.LayoutParams.WRAP_CONTENT
+                                    );
 
 
-                                    linearLayout.addView(pharmacy_view);
-                                    linearLayout.addView(button);
+
+
+                                    pharmacy_view.setLayoutParams(layoutParams);
+                                    directions_button.setLayoutParams(layoutParams_btn);
+                                    row.setLayoutParams(row_params);
+                                    row.setBackgroundResource(R.drawable.backshape);
+                                    //row2.setBackgroundColor(Color.parseColor("#bfdcfc"));
+                                    row.addView(pharmacy_view);
+                                    row2.addView(directions_button);
+                                    row2.addView(call_button);
+                                    linearLayout.addView(row);
+                                    linearLayout.addView(row2);
 
                                 }
 
