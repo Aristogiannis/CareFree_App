@@ -1,0 +1,1 @@
+NUL > 'test4'.py
